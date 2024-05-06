@@ -1,0 +1,104 @@
+version: "4"
+
+services:
+    instagram:
+        image: kooldev/php:8.1
+        container_name: instagram
+        working_dir: /instagram
+        restart: always
+        networks:
+            - internal
+            - nginx_network
+        volumes:
+            - ".:/instagram"
+            - "./docker/php/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini"
+        links:
+            - instagram-database
+        depends_on:
+            - instagram-database
+        environment:
+            - PHP_EXECUTABLE_PATH=/usr/local/bin/php
+    instagram-nginx:
+        image: nginx:alpine
+        container_name: instagram-nginx
+        restart: always
+        working_dir: /instagram
+        networks:
+            - internal
+            - nginx_network
+        ports:
+            - "9000:80"
+        volumes:
+            - .:/instagram
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - instagram
+    instagram-composer:
+        image: composer:latest
+        container_name: instagram-composer
+        working_dir: /instagram
+        command: update --ignore-platform-reqs
+        volumes:
+            - .:/instagram
+        restart: on-failure
+        depends_on:
+            - instagram
+    instagram-database:
+        image: mariadb:latest
+        restart: always
+        container_name: instagram-database
+        working_dir: /instagram
+        networks:
+            - internal
+            - nginx_network
+        command: mysqld --skip-grant-tables
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=instagram
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=password
+        volumes:
+            - .:/instagram
+            - ./instagram-database:/var/lib/mysql
+        ports:
+            - "8003:3306"
+    instagram-redis:
+        image: "redis:alpine"
+        ports:
+            - "${FORWARD_REDIS_PORT:-6381}:6381"
+        volumes:
+            - instagram-redis:/data
+        networks:
+            - internal
+            - nginx_network
+        command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+
+    instagram-npm:
+        image: node:20-alpine
+        container_name: instagram-npm
+        working_dir: /instagram
+        volumes:
+            - ".:/instagram"
+        depends_on:
+            - instagram
+    adminer:
+        image: adminer
+        restart: always
+        networks:
+            - nginx_network
+        ports:
+            - "8888:8080"
+
+networks:
+    nginx_network:
+        external: true
+    internal:
+        driver: overlay
+        name: "global"
+        attachable: true
+        external: true
+volumes:
+    instagram-database:
+        driver: local
+    instagram-redis:
+        driver: local
