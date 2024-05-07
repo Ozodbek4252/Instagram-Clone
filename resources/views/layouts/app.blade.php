@@ -22,11 +22,11 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="drawer">
+    <div class="drawer drawer-open">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <!-- Page content here -->
-            <label for="my-drawer" class="btn btn-primary drawer-button">Open drawer</label>
+            {{--  <label for="my-drawer" class="btn btn-primary drawer-button">Open drawer</label>  --}}
             {{ $slot }}
         </div>
         <div class="drawer-side">
