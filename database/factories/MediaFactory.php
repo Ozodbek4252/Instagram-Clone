@@ -17,7 +17,6 @@ class MediaFactory extends Factory
      */
     public function definition(): array
     {
-
         $url = $this->getUrl('post');
         $mime = $this->getMime($url);
 
@@ -29,6 +28,34 @@ class MediaFactory extends Factory
                 return Post::find($attributes['mediable_id'])->getMorphClass();
             }
         ];
+    }
+
+    # chainable methods
+    public function reel(): Factory
+    {
+        $url = $this->getUrl('reel');
+        $mime = $this->getMime($url);
+
+        return $this->state(function (array $attributes) use ($url, $mime) {
+            return [
+                'url' => $url,
+                'mime' => $mime,
+            ];
+        });
+    }
+
+    # chainable methods
+    public function post(): Factory
+    {
+        $url = $this->getUrl('post');
+        $mime = $this->getMime($url);
+
+        return $this->state(function (array $attributes) use ($url, $mime) {
+            return [
+                'url' => $url,
+                'mime' => $mime,
+            ];
+        });
     }
 
     private function getUrl(string $type = 'post'): string
@@ -85,33 +112,5 @@ class MediaFactory extends Factory
         }
 
         return 'image';
-    }
-
-    # chainable methods
-    function reel(): Factory
-    {
-        $url = $this->getUrl('reel');
-        $mime = $this->getMime($url);
-
-        return $this->state(function(array $attributes) use($url, $mime) {
-            return [
-                'url' => $url,
-                'mime' => $mime,
-            ];
-        });
-    }
-
-    # chainable methods
-    function post(): Factory
-    {
-        $url = $this->getUrl('post');
-        $mime = $this->getMime($url);
-
-        return $this->state(function(array $attributes) use($url, $mime) {
-            return [
-                'url' => $url,
-                'mime' => $mime,
-            ];
-        });
     }
 }
