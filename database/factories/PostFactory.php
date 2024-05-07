@@ -33,15 +33,15 @@ class PostFactory extends Factory
     {
         return $this->afterCreating(function (Post $post) {
             if ($post->type === 'reel') {
-                // Media::factory()->real()->create([
-                //     'mediable_type' => get_class($post),
-                //     'mediable_id' => $post->id,
-                // ]);
+                Media::factory()->reel()->create([
+                    'mediable_type' => get_class($post),
+                    'mediable_id' => $post->id,
+                ]);
             } else {
-                // Media::factory()->post()->create([
-                //     'mediable_type' => get_class($post),
-                //     'mediable_id' => $post->id,
-                // ]);
+                Media::factory()->post()->create([
+                    'mediable_type' => get_class($post),
+                    'mediable_id' => $post->id,
+                ]);
             }
         });
     }

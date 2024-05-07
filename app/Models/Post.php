@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * @package App\Models
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $type allowed: ['post', 'reel']
  * 
  * @property User $user
+ * @property Media[]|Collection $media
  */
 class Post extends Model
 {
@@ -43,8 +45,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function media(): MorphMany
-    // {
-    //     return $this->morphMany(Media::class, 'mediable');
-    // }
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
+    }
 }
