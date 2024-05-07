@@ -2,24 +2,18 @@
 
     {{-- Header --}}
     <header class="md:hidden sticky top-0 z-50 bg-white">
-
         <div class="grid grid-cols-12 gap-2 items-center">
 
             <div class="col-span-3">
-
                 <img src="{{ asset('assets/logo.png') }}" class="h-12 max-w-lg w-full" alt="logo">
-
             </div>
 
             <div class="col-span-8 flex justify-center px-2">
-
                 <input type="text" placeholder="Search"
                     class=" border-0 outline-none w-full focus:outline-none bg-gray-100 rounded-lg focus:ring-0 hover:ring-0">
-
             </div>
 
             <div class="col-span-1 flex justify-center">
-
                 <a href="#">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9"
@@ -30,15 +24,9 @@
 
                     </span>
                 </a>
-
             </div>
 
-
         </div>
-
-
-
-
     </header>
 
 
@@ -60,9 +48,13 @@
                         </li>
                     @endfor
                 </ul>
-
             </section>
 
+
+            {{-- Posts --}}
+            <section class="mt-5 space-y-4 p-2">
+                <livewire:post.item />
+            </section>
 
         </aside>
 
@@ -99,13 +91,7 @@
                                     <button class="font-bold text-blue-500 ml-auto text-sm">Follow</button>
 
                                 </div>
-
-
-
-
                             </div>
-
-
                         </li>
                     @endfor
                 </ul>
@@ -140,10 +126,7 @@
 
                 <h3 class="text-gray-800/90 mt-6 text-sm"> @ 2023 INTAGRAM COURSE </h3>
 
-
             </section>
-
-
 
         </aside>
     </main>
