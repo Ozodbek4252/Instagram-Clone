@@ -26,7 +26,62 @@
     {{-- Main---- --}}
     <main>
         <div class=" my-2">
-            <x-video />
+            {{--  Slider main container  --}}
+            <div class="swiper h-[500px] border bg-white" x-init="new Swiper($el, {
+                modules: [Navigation, Pagination],
+                loop: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            })">
+                {{--  Additional required wrapper  --}}
+                <div x-cloak class="swiper-wrapper">
+                    {{--  Slides  --}}
+                    <div class="swiper-slide"> <x-video /> </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.pexels.com/photos/17543464/pexels-photo-17543464/free-photo-of-a-magnifying-glass-lying-on-a-vintage-book-with-a-map.jpeg"
+                            alt="" class="h-[500px] w-full block object-scale-down">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.pexels.com/photos/20830532/pexels-photo-20830532/free-photo-of-processed-with-vsco-with-m5-preset.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load"
+                            alt="" class="h-[500px] w-full block object-scale-down">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://images.pexels.com/photos/13887064/pexels-photo-13887064.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load"
+                            alt="" class="h-[500px] w-full block object-scale-down">
+                    </div>
+                </div>
+
+                {{--  If we need pagination  --}}
+                <div class="swiper-pagination"></div>
+
+                {{--  prev  --}}
+                <div class="swiper-button-prev absolute top-1/2 z-10 p-2">
+                    <div class="bg-white/95 border p-1 rounded-full text-gray-900">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.8"
+                            stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </div>
+                </div>
+
+                {{--  next   --}}
+                <div class="swiper-button-next absolute right-0 top-1/2 z-10 p-2">
+                    <div class="bg-white/95 border p-1 rounded-full text-gray-900">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.8"
+                            stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </div>
+                </div>
+
+                {{--  If we need scrollbar  --}}
+                <div class="swiper-scrollbar"></div>
+            </div>
         </div>
     </main>
 
