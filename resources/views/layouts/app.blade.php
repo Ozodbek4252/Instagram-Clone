@@ -34,6 +34,8 @@
             @include('layouts.sidebar')
         </div>
     </div>
+
+    @livewire('wire-elements-modal')
 </body>
 
 </html>
