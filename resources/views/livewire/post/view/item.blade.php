@@ -1,7 +1,6 @@
-<div class="grid grid-cols-12 gap-3 h-full w-full overflow-hidden">
-
-    <aside class="lg:col-span-7 m-auto items-center w-full overflow-scroll">
-        {{-- Css snap scroll --}}
+<div class="grid lg:grid-cols-12 gap-3 h-full w-full overflow-hidden">
+    <aside class="lg:flex lg:col-span-7 m-auto items-center w-full overflow-scroll">
+        {{-- CSS Snap scroll --}}
         <div
             class="relative flex overflow-x-scroll overscroll-contain w-[500px] selection:snap-x snap-mandatory gap-2 px-2">
             @foreach ($post->media as $key => $file)
@@ -17,7 +16,7 @@
     </aside>
 
     <aside class="lg:col-span-5 h-full scrollbar-hide relative flex gap-4 flex-col overflow-hidden overflow-y-scroll">
-        <header class="flex  items-center gap-3 border-b py-2  sticky  top-0 bg-white z-10 ">
+        <header class="flex items-center gap-3 border-b py-2 sticky top-0 bg-white z-10">
             <x-avatar story src="{{ getRandomAvatar() }}" class="h-9 w-9" />
 
             <div class="grid grid-cols-7 w-full gap-2">
@@ -26,10 +25,11 @@
                 </div>
 
                 <div class="flex col-span-2 text-right justify-end">
-                    <button wire:click="$dispatch('closeModal')" class="text-gray-500 ml-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <button class="font-bold text-sm text-gray-500 ml-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path
+                                d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                         </svg>
                     </button>
                 </div>
@@ -37,18 +37,92 @@
         </header>
 
         <main>
-            <div class="h-96 bg-blue-500"></div>
-            <div class="h-96 bg-red-500"></div>
-            <div class="h-96 bg-green-500"></div>
+            @if ($comments)
+                @foreach ($comments as $comment)
+                    {{-- Comment item --}}
+                    <section class="flex flex-col gap-2">
+
+                        {{-- comment --}}
+                        <div class="flex items-center gap-3 py-2">
+                            <x-avatar story src="{{ getRandomAvatar() }}" class="w-8 h-8 mb-auto" />
+
+                            <div class="grid grid-cols-7 w-full gap-2">
+                                {{-- comment --}}
+                                <div class="col-span-6 flex flex-wrap text-sm">
+                                    <p>
+                                        <span class="font-bold text-sm">{{ $comment->user->name }} </span>
+                                        {{ $comment->body }}
+                                    </p>
+                                </div>
+
+                                {{-- Like --}}
+                                <div class="col-span-1 flex text-right justify-end mb-auto">
+                                    <button class="font-bold text-sm ml-auto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                {{-- Footer --}}
+                                <div class="col-span-7 flex gap-2 text-sm items-center text-gray-700">
+                                    <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                    <span class="font-bold">345 Likes</span>
+                                    <span class="font-semibold">Reply</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ($comment->replies)
+                            @foreach ($comment->replies as $reply)
+                                {{-- reply --}}
+                                <div class="flex items-center gap-3 w-11/12 ml-auto py-2">
+                                    <x-avatar story src="{{ getRandomAvatar() }}" class="w-8 h-8 mb-auto" />
+
+                                    <div class="grid grid-cols-7 w-full gap-2">
+                                        {{-- comment --}}
+                                        <div class="col-span-6 flex flex-wrap text-sm">
+                                            <p>
+                                                <span class="font-bold text-sm">{{ $reply->user->name }}</span>
+                                                <span class="font-bold">@ {{ $reply->parent->user->name }}</span>
+                                                {{ $reply->body }}
+                                            </p>
+                                        </div>
+
+                                        {{-- Like --}}
+                                        <div class="col-span-1 flex text-right justify-end mb-auto">
+                                            <button class="font-bold text-sm ml-auto">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="w-3 h-3">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        {{-- Footer --}}
+                                        <div class="col-span-7 flex gap-2 text-sm items-center text-gray-700">
+                                            <span>{{ $reply->created_at->diffForHumans() }}</span>
+                                            <span class="font-bold">345 Likes</span>
+                                            <span class="font-semibold">Reply</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </section>
+                @endforeach
+            @else
+                No commnets
+            @endif
         </main>
 
-        {{-- footer --}}
         <footer class="mt-auto sticky border-t bottom-0 z-10 bg-white">
-
             {{-- actions --}}
             <div class="flex gap-4 items-center my-2">
-
-                {{-- heart --}}
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9"
                         stroke="currentColor" class="w-6 h-6">
@@ -57,16 +131,14 @@
                     </svg>
                 </span>
 
-                {{-- message --}}
                 <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.9"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
                     </svg>
                 </span>
 
-                {{-- forward --}}
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-send w-5 h-5" viewBox="0 0 16 16">
@@ -75,9 +147,8 @@
                     </svg>
                 </span>
 
-                {{-- Bookmark --}}
                 <span class="ml-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -85,31 +156,31 @@
                 </span>
             </div>
 
-            {{-- likes and views --}}
-            <p class="font-bold text-sm">104,474 likes</p>
+            {{-- Likes or views --}}
+            <p class="font-bold text-sm">103,564 likes</p>
 
-            {{-- name and comment --}}
+            {{-- name & comment --}}
             <div class="flex text-sm gap-2 font-medium">
-                <p> <strong class="font-bold">{{ $post->user->name }} </strong>
+                <p> <strong class="font-bold">{{ $post->user->name }}</strong>
                     {{ $post->description }}
                 </p>
             </div>
 
-            {{-- view post modal --}}
-            <button
-                onclick="Livewire.dispatch('openModal',{component:'post.view.modal',arguments:{'post':{{ $post->id }}}})"
-                class="text-slate-500/90 text-sm font-medium"> View all {{ $post->comments->count() }} comments </button>
+            {{-- View Post Modal --}}
+            <button class="text-slate-500/90 text-sm font-medium">
+                {{ $post->comments->count() }} comments
+            </button>
 
-            {{-- leave comment --}}
-            <form x-data="{ inputText: '' }" class="grid grid-cols-12 items-center w-full">
+            {{-- Leave comment --}}
+            <form class="grid grid-cols-12 items-center w-full" x-data="{ body: '' }">
                 @csrf
-                <input x-model="inputText" type="text" placeholder=" Leave a comment "
-                    class="border-0 col-span-10 placeholder:text-sm outline-none focus:outline-none px-0 rounded-lg hover:ring-0 focus:ring-0">
+                <input placeholder="Leave a comment" type="text"
+                    class="border-0 col-span-10 placeholder:text-sm outline-none focus:outline-none px-0 rounded-lg hover:ring-0 focus:ring-0"
+                    x-model="body">
+
                 <div class="col-span-1 ml-auto flex justify-end text-right">
-                    <button x-cloak x-show="inputText.length >0"
-                        class="text-sm font-semibold flex justify-end text-blue-500">
-                        Post
-                    </button>
+                    <button x-cloak class="text-sm font-semibold flex justify-end text-blue-500"
+                        x-show="body.length > 0">Post</button>
                 </div>
 
                 <span class="col-span-1 ml-auto">
