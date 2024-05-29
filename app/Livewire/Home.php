@@ -20,6 +20,12 @@ class Home extends Component
         return view('livewire.home');
     }
 
+    #[On('closeModal')]
+    function revertUrl()
+    {
+        $this->js("history.replaceState({}, '', '/')");
+    }
+
     #[On('post-created')]
     function postCreated($id)
     {
