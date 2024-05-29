@@ -42,7 +42,7 @@
 
                     @for ($i = 0; $i < 10; $i++)
                         <li class="flex flex-col justify-center w-20 gap-1 p-2">
-                            <x-avatar story src="https://source.unsplash.com/500x500?face-{{ $i }}"
+                            <x-avatar story src="{{ getRandomAvatar() }}"
                                 class="h-14 w-14" />
                             <p class="text-xs font-medium truncate"> {{ fake()->name }} </p>
                         </li>
@@ -69,7 +69,7 @@
 
             <div class="flex items-center gap-2">
 
-                <x-avatar src="https://source.unsplash.com/500x500?face" class="w-12 h-12" />
+                <x-avatar src="{{ getRandomAvatar() }}" class="w-12 h-12" />
                 <h4 class="font-medium">{{ fake()->name }} </h4>
 
             </div>
@@ -83,7 +83,7 @@
 
                     @for ($i = 0; $i < 5; $i++)
                         <li class="flex items-center gap-3">
-                            <x-avatar src="https://source.unsplash.com/500x500?face-{{ $i }}"
+                            <x-avatar src="{{ getRandomAvatar() }}"
                                 class="w-12 h-12" />
 
                             <div class="grid grid-cols-7 w-full gap-2">
