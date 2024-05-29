@@ -110,14 +110,15 @@
             </button>
 
             {{-- Leave comment --}}
-            <form class="grid grid-cols-12 items-center w-full" x-data="{ body: '' }">
+            <form class="grid grid-cols-12 items-center w-full" wire:key="{{ time() }}" x-data="{ body: @entangle('body') }"
+                @submit.prevent="$wire.addComment()">
                 @csrf
                 <input placeholder="Leave a comment" type="text"
                     class="border-0 col-span-10 placeholder:text-sm outline-none focus:outline-none px-0 rounded-lg hover:ring-0 focus:ring-0"
                     x-model="body">
 
                 <div class="col-span-1 ml-auto flex justify-end text-right">
-                    <button x-cloak class="text-sm font-semibold flex justify-end text-blue-500"
+                    <button type="submit" x-cloak class="text-sm font-semibold flex justify-end text-blue-500"
                         x-show="body.length > 0">Post</button>
                 </div>
 

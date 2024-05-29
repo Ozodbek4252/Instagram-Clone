@@ -8,10 +8,27 @@ use Livewire\Component;
 class Item extends Component
 {
     public Post $post;
+    public $body;
+    public $parent_id = null;
     
     public function render()
     {
         $comments = $this->post->comments()->whereDoesntHave('parent')->get();
         return view('livewire.post.view.item', compact('comments'));
+    }
+
+    public function addComment()
+    {
+        $this->validate([
+            'body' => 'required'
+        ]);
+
+        $this->post->comments()->create([
+            'body' => $this->body,
+            'parent_id' => $this->parent_id,
+            'user_id' => auth()->id()
+        ]);
+
+        $this->body = '';
     }
 }
