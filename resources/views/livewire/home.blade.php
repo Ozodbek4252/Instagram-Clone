@@ -1,4 +1,14 @@
-<div class="w-full h-full">
+<div x-data="{ canLoadMore: @entangle('canLoadMore') }" class="w-full h-full"
+    @scroll.window.trottle="
+        scrollTop = window.scrollY || window.scrollTop;
+        divHeight = window.innerHeight||documentElement.clientHeight;
+        scrollHeight = document.documentElement.scrollHeight;
+        isScrolled = scrollTop + divHeight >= scrollHeight - 1;
+
+        {{--  Check if user can load more  --}}
+        if (isScrolled && canLoadMore) {
+            @this.loadMore();
+        }">
 
     {{-- Header --}}
     <header class="md:hidden sticky top-0 z-50 bg-white">
@@ -49,7 +59,7 @@
             {{-- Posts --}}
             <section class="mt-5 space-y-4 p-2">
                 @if ($posts)
-                    @foreach ($posts->take(10) as $post)
+                    @foreach ($posts as $post)
                         <livewire:post.item wire:key="post-{{ $post->id }}" :$post />
                     @endforeach
                 @else
