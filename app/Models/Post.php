@@ -19,9 +19,13 @@ use Illuminate\Support\Collection;
  * @property bool $hide_like_view
  * @property bool $allow_commenting
  * @property string $type allowed: ['post', 'reel']
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  * 
  * @property User $user
  * @property Media[]|Collection $media
+ * @property Comment[]|Collection $comments
  */
 class Post extends Model
 {
@@ -49,5 +53,10 @@ class Post extends Model
     public function media(): MorphMany
     {
         return $this->morphMany(Media::class, 'mediable');
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable')->with('replies');
     }
 }
