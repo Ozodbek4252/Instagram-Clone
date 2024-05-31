@@ -4,7 +4,6 @@ namespace App\Livewire\Post\View;
 
 use App\Models\Comment;
 use App\Models\Post;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Item extends Component
@@ -21,7 +20,7 @@ class Item extends Component
 
     public function togglePostLike()
     {
-        abort_unless(auth()->check(), 403);
+        abort_unless(auth()->check(), 401);
 
         /** @var \App\Models\User $user */
         $user = auth()->user();
@@ -30,10 +29,15 @@ class Item extends Component
         $this->dispatch('post-liked', $this->post->id);
     }
 
-    #[On('post-liked')]
-    function postCreated($id)
+    public function toggleCommentLike(Comment $comment)
     {
-        $this->render();
+        abort_unless(auth()->check(), 401);
+
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->toggleLike($comment);
+
+        $this->dispatch('comment-liked', $comment->id);
     }
 
     function setParent(Comment $comment)
