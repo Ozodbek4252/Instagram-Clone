@@ -4,6 +4,7 @@ namespace App\Livewire\Post;
 
 use Livewire\Component;
 use App\Models\Post;
+use Livewire\Attributes\On;
 
 class Item extends Component
 {
@@ -22,6 +23,14 @@ class Item extends Component
         /** @var \App\Models\User $user */
         $user = auth()->user();
         $user->toggleLike($this->post);
+
+        $this->dispatch('post-liked', $this->post->id);
+    }
+
+    #[On('post-liked')]
+    function postCreated($id)
+    {
+        $this->render();
     }
 
     public function addComment()

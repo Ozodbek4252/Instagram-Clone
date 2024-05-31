@@ -20,6 +20,11 @@ class Create extends ModalComponent
     public $hide_like_view = false;
     public $allow_commenting = false;
 
+    public function render()
+    {
+        return view('livewire.post.create');
+    }
+    
     /**
      * Supported: 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl'
      */
@@ -93,10 +98,5 @@ class Create extends ModalComponent
         } else {
             return 'post';
         }
-    }
-
-    public function render()
-    {
-        return view('livewire.post.create');
     }
 }
