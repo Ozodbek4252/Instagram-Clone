@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Post\View;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Livewire\Component;
 
@@ -15,6 +16,12 @@ class Item extends Component
     {
         $comments = $this->post->comments()->whereDoesntHave('parent')->get();
         return view('livewire.post.view.item', compact('comments'));
+    }
+
+    function setParent(Comment $comment)
+    {
+        $this->parent_id = $comment->id;
+        $this->body = '@' . $comment->user->name . ' ';
     }
 
     public function addComment()

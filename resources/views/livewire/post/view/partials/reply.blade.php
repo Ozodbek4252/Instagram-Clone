@@ -6,7 +6,6 @@
         <div class="col-span-6 flex flex-wrap text-sm">
             <p>
                 <span class="font-bold text-sm">{{ $reply->user->name }}</span>
-                <span class="font-bold">@ {{ $reply->parent->user->name }}</span>
                 {{ $reply->body }}
             </p>
         </div>
@@ -26,7 +25,7 @@
         <div class="col-span-7 flex gap-2 text-sm items-center text-gray-700">
             <span>{{ $reply->created_at->diffForHumans() }}</span>
             <span class="font-bold">345 Likes</span>
-            <span class="font-semibold">Reply</span>
+            <button wire:click="setParent({{ $reply->id }})" class="font-semibold">Reply</button>
         </div>
     </div>
 </div>
