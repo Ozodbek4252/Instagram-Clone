@@ -19,6 +19,7 @@ use Overtrue\LaravelLike\Traits\Liker;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property string $username
  * @property \Carbon\Carbon $email_verified_at
  * @property string $password
  * @property \Carbon\Carbon $created_at
@@ -42,6 +43,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
     ];
 
     /**
