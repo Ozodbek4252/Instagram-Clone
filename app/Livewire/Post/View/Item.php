@@ -11,11 +11,20 @@ class Item extends Component
     public Post $post;
     public $body;
     public $parent_id = null;
-    
+
     public function render()
     {
         $comments = $this->post->comments()->whereDoesntHave('parent')->get();
         return view('livewire.post.view.item', compact('comments'));
+    }
+
+    public function togglePostLike()
+    {
+        abort_unless(auth()->check(), 403);
+
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->toggleLike($this->post);
     }
 
     function setParent(Comment $comment)

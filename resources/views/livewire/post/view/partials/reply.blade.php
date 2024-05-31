@@ -1,5 +1,5 @@
 <div class="flex items-center gap-3 w-11/12 ml-auto py-2">
-    <x-avatar src="{{ getRandomAvatar() }}" class="w-8 h-8 mb-auto" />
+    <x-avatar wire:ignore src="{{ getRandomAvatar() }}" class="w-8 h-8 mb-auto" />
 
     <div class="grid grid-cols-7 w-full gap-2">
         {{-- comment --}}

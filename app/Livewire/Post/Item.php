@@ -3,15 +3,25 @@
 namespace App\Livewire\Post;
 
 use Livewire\Component;
+use App\Models\Post;
 
 class Item extends Component
 {
-    public $post;
+    public Post $post;
     public $body;
 
     public function render()
     {
         return view('livewire.post.item');
+    }
+
+    public function togglePostLike()
+    {
+        abort_unless(auth()->check(), 403);
+
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->toggleLike($this->post);
     }
 
     public function addComment()
