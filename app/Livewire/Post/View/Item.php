@@ -26,7 +26,7 @@ class Item extends Component
         $user = auth()->user();
         $user->toggleLike($this->post);
 
-        $this->dispatch('post-liked', $this->post->id);
+        $this->dispatch('post-liked');
     }
 
     public function toggleCommentLike(Comment $comment)
@@ -37,7 +37,18 @@ class Item extends Component
         $user = auth()->user();
         $user->toggleLike($comment);
 
-        $this->dispatch('comment-liked', $comment->id);
+        $this->dispatch('comment-liked');
+    }
+
+    public function toggleFavorite()
+    {
+        abort_unless(auth()->check(), 401);
+
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->toggleFavorite($this->post);
+
+        $this->dispatch('post-favorited');
     }
 
     function setParent(Comment $comment)

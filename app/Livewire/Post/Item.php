@@ -35,14 +35,29 @@ class Item extends Component
         $user->toggleLike($comment);
     }
 
+    public function toggleFavorite()
+    {
+        abort_unless(auth()->check(), 401);
+
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+        $user->toggleFavorite($this->post);
+    }
+
+    #[On('post-favorited')]
+    function postFavorited()
+    {
+        $this->render();
+    }
+
     #[On('post-liked')]
-    function postLiked($id)
+    function postLiked()
     {
         $this->render();
     }
 
     #[On('comment-liked')]
-    function commentLiked($id)
+    function commentLiked()
     {
         $this->render();
     }
