@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 use Overtrue\LaravelLike\Traits\Likeable;
 
 /**
@@ -31,7 +32,7 @@ use Overtrue\LaravelLike\Traits\Likeable;
 class Post extends Model
 {
     use HasFactory, SoftDeletes;
-    use Likeable;
+    use Likeable, Favoriteable;
 
     protected $fillable = [
         'user_id',
