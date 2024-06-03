@@ -83,21 +83,26 @@
                 <ul class="my-2 space-y-3">
                     @foreach ($suggestedUsers as $key => $suggestedUser)
                         <li class="flex items-center gap-3">
-                            <x-avatar wire:ignore src="{{ getRandomAvatar() }}" class="w-12 h-12" />
+                            <a href="{{ route('profile.home', $suggestedUser->username) }}">
+                                <x-avatar wire:ignore src="{{ getRandomAvatar() }}" class="w-12 h-12" />
+                            </a>
 
                             <div class="grid grid-cols-7 w-full gap-2">
                                 <div class="col-span-5">
-                                    <h5 class="font-semibold truncate text-sm">{{ $suggestedUser->name }}</h5>
+                                    <a href="{{ route('profile.home', $suggestedUser->username) }}"
+                                        class="font-semibold truncate text-sm">{{ $suggestedUser->name }}</a>
                                     <p class="text-xs truncate" wire:ignore> Followed by {{ fake()->name }} </p>
                                 </div>
 
                                 <div class="col-span-2 flex text-right justify-end">
                                     @if (auth()->user()->isFollowing($suggestedUser))
                                         <button wire:click="toggleFollow({{ $suggestedUser->id }})"
-                                            class="font-bold text-blue-500 ml-auto text-sm" style="cursor: pointer;">Following</button>
+                                            class="font-bold text-blue-500 ml-auto text-sm"
+                                            style="cursor: pointer;">Following</button>
                                     @else
                                         <button wire:click="toggleFollow({{ $suggestedUser->id }})"
-                                            class="font-bold text-blue-500 ml-auto text-sm" style="cursor: pointer;">Follow</button>
+                                            class="font-bold text-blue-500 ml-auto text-sm"
+                                            style="cursor: pointer;">Follow</button>
                                     @endif
                                 </div>
                             </div>

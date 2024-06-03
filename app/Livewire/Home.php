@@ -21,7 +21,10 @@ class Home extends Component
 
     public function render()
     {
-        $suggestedUsers = User::limit(5)->get();
+        /** @var \App\Models\User $user */
+        $user = auth()->user();
+
+        $suggestedUsers = User::whereNot('id', $user->id)->limit(5)->get();
 
         return view('livewire.home', compact('suggestedUsers'));
     }
@@ -29,7 +32,7 @@ class Home extends Component
     public function toggleFollow(User $userToFollow)
     {
         abort_unless(auth()->check(), 401);
-
+        
         /** @var \App\Models\User $user */
         $user = auth()->user();
         $user->toggleFollow($userToFollow);
